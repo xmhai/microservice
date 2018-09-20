@@ -1,4 +1,4 @@
-package org.baeldung.config;
+package com.lin.microservice.auth.config;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 

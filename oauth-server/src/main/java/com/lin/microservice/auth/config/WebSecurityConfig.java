@@ -1,4 +1,4 @@
-package org.baeldung.config;
+package com.lin.microservice.auth.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

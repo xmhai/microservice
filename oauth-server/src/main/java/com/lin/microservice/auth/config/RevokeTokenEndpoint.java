@@ -1,4 +1,4 @@
-package org.baeldung.config;
+package com.lin.microservice.auth.config;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
