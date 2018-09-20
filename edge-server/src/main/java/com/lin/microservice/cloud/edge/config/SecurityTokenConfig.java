@@ -1,4 +1,4 @@
-package sa.tabadul.fasah.microservice.infra.edge.config;
+package com.lin.microservice.cloud.edge.config;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,8 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import sa.tabadul.fasah.microservice.infra.edge.security.JwtConfig;
-import sa.tabadul.fasah.microservice.infra.edge.security.JwtTokenAuthenticationFilter;
+import com.lin.microservice.cloud.edge.security.JwtConfig;
+import com.lin.microservice.cloud.edge.security.JwtTokenAuthenticationFilter;
 
 @EnableWebSecurity 	// Enable security config. This annotation denotes config for spring security.
 public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {

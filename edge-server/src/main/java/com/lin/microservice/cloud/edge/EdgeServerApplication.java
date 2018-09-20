@@ -1,4 +1,4 @@
-package sa.tabadul.fasah.microservice.infra.edge;
+package com.lin.microservice.cloud.edge;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

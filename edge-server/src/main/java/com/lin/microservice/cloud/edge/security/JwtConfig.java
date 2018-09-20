@@ -1,4 +1,4 @@
-package sa.tabadul.fasah.microservice.infra.edge.security;
+package com.lin.microservice.cloud.edge.security;
 
 import org.springframework.beans.factory.annotation.Value;
 
