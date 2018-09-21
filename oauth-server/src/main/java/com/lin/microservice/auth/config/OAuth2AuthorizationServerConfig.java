@@ -30,9 +30,9 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 
-//@Configuration
-//@PropertySource({ "classpath:persistence.properties" })
-//@EnableAuthorizationServer
+@Configuration
+@PropertySource({ "classpath:persistence.properties" })
+@EnableAuthorizationServer
 public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
