@@ -10,10 +10,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
@@ -31,12 +29,15 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 
 @Configuration
-@PropertySource({ "classpath:persistence.properties" })
+//@PropertySource({ "classpath:persistence.properties" })
 @EnableAuthorizationServer
 public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
     private Environment env;
+
+    @Autowired
+    private DataSource dataSource;
 
     @Autowired
     @Qualifier("authenticationManagerBean")
@@ -55,7 +56,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 
     @Override
     public void configure(final ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.jdbc(dataSource());
+        clients.jdbc(dataSource);
     }
 
     @Override
@@ -96,6 +97,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
         return populator;
     }
 
+    /*
     @Bean
     public DataSource dataSource() {
         final DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -105,10 +107,11 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
         dataSource.setPassword(env.getProperty("jdbc.pass"));
         return dataSource;
     }
+    */
 
     @Bean
     public TokenStore tokenStore() {
-        return new JdbcTokenStore(dataSource());
+        return new JdbcTokenStore(dataSource);
     }
     
     @Bean
