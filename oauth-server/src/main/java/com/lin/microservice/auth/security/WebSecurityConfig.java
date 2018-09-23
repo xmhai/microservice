@@ -13,24 +13,27 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
-@Order(2147483640)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
-
     @Autowired
     private MyUserDetailsService userDetailsService;
 
+    @Autowired
+    public void globalUserDetails(final AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(authenticationProvider());
+    }
+
+    /*
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider());
     }
+    */
     
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(passwordEncoder);
+        authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
     
@@ -43,7 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
 		http.requestMatchers()
-        	.antMatchers("/login", "/oauth/authorize", "/oauth/token", "/oauth/confirm_access")
+        	.antMatchers("/login", "/oauth/authorize")
 			.and()
 			.authorizeRequests().anyRequest().authenticated()
 			.and()
@@ -52,5 +55,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.logout().permitAll()
 			.and()
 			.csrf().disable();
+    }
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
