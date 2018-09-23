@@ -1,5 +1,6 @@
 package com.lin.microservice.auth.entity;
 
+import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -19,7 +20,9 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "idm_user")
-public class User extends BaseEntity {
+public class User extends BaseEntity implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	@Column(name = "username")
 	@NotEmpty(message = "*Please provide your user name")
 	private String userName;
