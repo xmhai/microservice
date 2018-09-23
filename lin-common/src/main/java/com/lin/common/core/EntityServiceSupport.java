@@ -39,7 +39,7 @@ public abstract class EntityServiceSupport<T, ID extends Serializable, R extends
 
 	@Override
 	@Transactional
-	public T save(T entity) {
+	public T save(T entity) throws Exception {
 		Assert.notNull(entity, "The value must not be null");
 		beforeSave(entity);
 		return entityRepository.save(entity);

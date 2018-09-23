@@ -45,12 +45,6 @@
 		</dependency>
  -->
         
-         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        
  		<!-- oauth -->
 		<dependency>
 			<groupId>org.springframework.security.oauth</groupId>
@@ -63,16 +57,6 @@
 			<artifactId>spring-security-jwt</artifactId>
 			<version>${jwt.version}</version>
 		</dependency>
-
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-		</dependency>
-        
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jdk8</artifactId>
-        </dependency>
 
 		<!-- test -->
 		<dependency>

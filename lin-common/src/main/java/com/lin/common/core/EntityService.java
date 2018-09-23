@@ -8,9 +8,9 @@ import org.springframework.data.domain.Sort;
 
 public interface EntityService<T, ID extends Serializable, R extends EntityRepository<T, ID>> {
 
-	T save(T entity);
+	T save(T entity) throws Exception;
 
-	Iterable<T> save(Iterable<T> entities);
+	Iterable<T> save(Iterable<T> entities) throws Exception;
 
 	T findById(ID id);
 
