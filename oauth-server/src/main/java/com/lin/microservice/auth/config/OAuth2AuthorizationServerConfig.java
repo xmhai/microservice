@@ -5,19 +5,15 @@ import java.util.Arrays;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpMethod;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -37,10 +33,6 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
     @Autowired
     private DataSource dataSource;
 
-    @Autowired
-    @Qualifier("authenticationManagerBean")
-    private AuthenticationManager authenticationManager;
-
     @Value("classpath:schema.sql")
     private Resource schemaScript;
 
@@ -49,7 +41,10 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 
     @Override
     public void configure(final AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
-        oauthServer.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
+        oauthServer
+        	.tokenKeyAccess("permitAll()")
+        	.checkTokenAccess("isAuthenticated()")
+        	.passwordEncoder(Oauth2ClientPasswordEncoder.getInstance()); // NoOpPasswordEncoder.getInstance()
     }
 
     @Override
@@ -61,10 +56,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
     public void configure(final AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         final TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
         tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer()));
-        endpoints.tokenStore(tokenStore())
-        	.tokenEnhancer(tokenEnhancerChain)
-        	.authenticationManager(authenticationManager)
-        	.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
+        endpoints.tokenStore(tokenStore()).tokenEnhancer(tokenEnhancerChain);
     }
 
     @Bean
@@ -97,18 +89,6 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
         populator.addScript(dataScript);
         return populator;
     }
-
-    /*
-    @Bean
-    public DataSource dataSource() {
-        final DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
-        dataSource.setUrl(env.getProperty("jdbc.url"));
-        dataSource.setUsername(env.getProperty("jdbc.user"));
-        dataSource.setPassword(env.getProperty("jdbc.pass"));
-        return dataSource;
-    }
-    */
 
     @Bean
     public TokenStore tokenStore() {
