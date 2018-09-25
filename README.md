@@ -19,7 +19,7 @@ localhost:9000/users/2
 
 # OAuth2 authorize code flow
 localhost:8081/oauth/authorize?response_type=code&client_id=lin&redirect_uri=http://microservice&scope=read
-localhost:8081/oauth/token?grant_type=authorization_code&redirect_uri=http://lin.com&code=
+localhost:8081/oauth/token?grant_type=authorization_code&redirect_uri=http://microservice&code=
 
 # OAuth2 implicit flow
 localhost:8081/oauth/authorize?response_type=token&client_id=sampleClientId&redirect_uri=http://lin.com&scope=read
