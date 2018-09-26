@@ -25,3 +25,6 @@ localhost:8081/oauth/token?grant_type=authorization_code&redirect_uri=http://mic
 localhost:8081/oauth/authorize?response_type=token&client_id=sampleClientId&redirect_uri=http://lin.com&scope=read
 
 # OAuth2 password flow
+
+# Edge Server: Get User (GET)
+localhost:8081/users

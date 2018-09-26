@@ -14,8 +14,9 @@ zuul:
   ignored-services: '*'
   routes:
     declarations:
-      path: /api/declaration-service/**
-      serviceId: declaration-service
+      path: /users/**
+      strip-prefix: false
+      serviceId: user-service
     auth-service:
       path: /auth/**
       serviceId: auth-server
@@ -23,3 +24,16 @@ zuul:
       sensitive-headers: Cookie,Set-Cookie
   host:
     socket-timeout-millis: 30000
+    
+security:
+  oauth2:
+    client:
+      client-id: lin
+      client-secret: secret
+      access-token-uri: http://localhost:8081/oauth/token
+      user-authorization-uri: http://localhost:8081/oauth/authorize
+      scope: read
+    resource:
+      user-info-uri: http://localhost:8081/oauth/userinfo
+      token-info-uri: http://localhost:8081/oauth/introspect
+      prefer-token-info: false

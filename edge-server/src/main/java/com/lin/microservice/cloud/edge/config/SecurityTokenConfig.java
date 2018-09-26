@@ -14,7 +14,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.lin.microservice.cloud.edge.security.JwtConfig;
 import com.lin.microservice.cloud.edge.security.JwtTokenAuthenticationFilter;
 
-@EnableWebSecurity 	// Enable security config. This annotation denotes config for spring security.
+//@EnableWebSecurity 	// Enable security config. This annotation denotes config for spring security.
 public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private JwtConfig jwtConfig;
