@@ -24,16 +24,17 @@ zuul:
       sensitive-headers: Cookie,Set-Cookie
   host:
     socket-timeout-millis: 30000
-    
+
 security:
-  oauth2:
-    client:
-      client-id: lin
-      client-secret: secret
-      access-token-uri: http://localhost:8081/oauth/token
-      user-authorization-uri: http://localhost:8081/oauth/authorize
-      scope: read
-    resource:
-      user-info-uri: http://localhost:8081/oauth/userinfo
-      token-info-uri: http://localhost:8081/oauth/introspect
-      prefer-token-info: false
+    oauth2:
+        client:
+            client-id: lin
+            client-secret: secret
+            access-token-uri: http://localhost:8082/oauth/token
+            user-authorization-uri: http://localhost:8082/oauth/authorize
+            registered-redirect-uri: http://localhost:8081/home
+            scope: read
+        resource:
+            user-info-uri: http://localhost:8082/userinfo
+            token-info-uri: http://localhost:8082/token_keys
+            prefer-token-info: false

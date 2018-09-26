@@ -10,7 +10,7 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 @EnableZuulProxy
 @EnableDiscoveryClient
 @EnableEurekaClient
-//@EnableOAuth2Sso
+@EnableOAuth2Sso
 @SpringBootApplication
 public class EdgeServerApplication {
 
