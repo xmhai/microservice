@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>MicroService</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style>
+.hidden {
+	display: none;
+}
+</style>
+</head>
+<body>
+
+	Hello, MicroService!
+	<br />
+
+	<div class="authenticate hidden">
+		<a class="connect" href="">Connect</a>
+	</div>
+
+	<div class="authenticated hidden">
+		<p>
+			token: <span class="token">[no token]</span>.
+		</p>
+
+		<p>
+			username: <span class="user">[no username]</span>.
+		</p>
+	</div>
+
+	<script src="webjars/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript" charset="utf-8">
+	$( document ).ready(function() {
+		var extractToken = function(hash) {
+	      var match = hash.match(/access_token=([\w-]+)/);
+	      return !!match && match[1];
+	    };
+	
+	    var CLIENT_ID = "lin";
+	    var AUTHORIZATION_ENDPOINT = "http://localhost:8082/oauth/authorize";
+	    var RESOURCE_ENDPOINT = "http://localhost:8082/oauth/authorize";
+	
+	    var token = extractToken(document.location.hash);
+	    if (token) {
+	      $('div.authenticated').show();
+	
+	      $('span.token').text(token);
+	
+	      $.ajax({
+	          url: RESOURCE_ENDPOINT
+	        , beforeSend: function (xhr) {
+	            xhr.setRequestHeader('Authorization', "OAuth " + token);
+	            xhr.setRequestHeader('Accept',        "application/json");
+	          }
+	        , success: function (response) {
+	            var container = $('span.user');
+	            if (response) {
+	              container.text(response.username);
+	            } else {
+	              container.text("An error occurred.");
+	            }
+	          }
+	      });
+	    } else {
+	      $('div.authenticate').show();
+	
+	      var authUrl = AUTHORIZATION_ENDPOINT + 
+	        "?response_type=token" +
+	        "&client_id="    + CLIENT_ID +
+	        "&redirect_uri=" + window.location;
+	
+	      $("a.connect").attr("href", authUrl);
+	    }
+	  });
+	</script>
+</body>
+</html>

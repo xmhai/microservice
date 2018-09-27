@@ -19,9 +19,11 @@
 	<modules>
 		<module>lin-common</module>
 		<module>oauth-server</module>
-		<module>user-service</module>
 		<module>edge-server</module>
 		<module>eureka-server</module>
+		<module>user-service</module>
+		<module>template-service</module>
+		<module>notification-service</module>
 	</modules>
 
 	<properties>
