@@ -13,28 +13,13 @@ eureka:
 zuul:
   ignored-services: '*'
   routes:
-    declarations:
+    auth:
+      path: /oauth/**
+      serviceId: oauth-server
+      strip-prefix: false
+    users:
       path: /users/**
-      strip-prefix: false
       serviceId: user-service
-    auth-service:
-      path: /auth/**
-      serviceId: auth-server
       strip-prefix: false
-      sensitive-headers: Cookie,Set-Cookie
   host:
     socket-timeout-millis: 30000
-
-security:
-    oauth2:
-        client:
-            client-id: lin
-            client-secret: secret
-            access-token-uri: http://localhost:8082/oauth/token
-            user-authorization-uri: http://localhost:8082/oauth/authorize
-            registered-redirect-uri: http://localhost:8081/home
-            scope: read
-        resource:
-            user-info-uri: http://localhost:8082/userinfo
-            token-info-uri: http://localhost:8082/token_keys
-            prefer-token-info: false
