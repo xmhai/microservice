@@ -11,8 +11,9 @@
 
 	<parent>
 		<groupId>com.lin</groupId>
-		<artifactId>microservice</artifactId>
+		<artifactId>base-service-pom</artifactId>
 		<version>1.0</version>
+		<relativePath>../base-service-pom/pom.xml</relativePath>
 	</parent>
 
 	<dependencies>

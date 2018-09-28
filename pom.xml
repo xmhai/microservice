@@ -17,6 +17,7 @@
 	</parent>
 
 	<modules>
+		<module>base-service-pom</module>
 		<module>lin-common</module>
 		<module>oauth-server</module>
 		<module>edge-server</module>
