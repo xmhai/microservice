@@ -13,10 +13,6 @@ eureka:
 zuul:
   ignored-services: '*'
   routes:
-    auth:
-      path: /oauth/**
-      serviceId: oauth-server
-      strip-prefix: false
     users:
       path: /users/**
       serviceId: user-service
