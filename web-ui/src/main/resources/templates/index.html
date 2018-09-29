@@ -28,50 +28,82 @@
 		</p>
 	</div>
 
+	<div>
+		<span id="rest_url">http://localhost:8081/users</span><button onclick="myFunction()">Send</button><br/>
+		Response: <br/>
+		<span id="response">[no response]</span>
+	</div>
+
+
 	<script src="webjars/jquery/1.9.1/jquery.min.js"></script>
 	<script type="text/javascript" charset="utf-8">
-	$( document ).ready(function() {
-		var extractToken = function(hash) {
-	      var match = hash.match(/access_token=([\w-]+)/);
-	      return !!match && match[1];
-	    };
-	
-	    var CLIENT_ID = "lin";
-	    var AUTHORIZATION_ENDPOINT = "http://localhost:8082/oauth/authorize";
-	    var RESOURCE_ENDPOINT = "http://localhost:8082/oauth/authorize";
-	
-	    var token = extractToken(document.location.hash);
-	    if (token) {
-	      $('div.authenticated').show();
-	
-	      $('span.token').text(token);
-	
-	      $.ajax({
-	          url: RESOURCE_ENDPOINT
-	        , beforeSend: function (xhr) {
-	            xhr.setRequestHeader('Authorization', "OAuth " + token);
-	            xhr.setRequestHeader('Accept',        "application/json");
-	          }
-	        , success: function (response) {
-	            var container = $('span.user');
-	            if (response) {
-	              container.text(response.username);
-	            } else {
-	              container.text("An error occurred.");
-	            }
-	          }
-	      });
-	    } else {
-	      $('div.authenticate').show();
-	
-	      var authUrl = AUTHORIZATION_ENDPOINT + 
-	        "?response_type=token" +
-	        "&client_id="    + CLIENT_ID +
-	        "&redirect_uri=" + window.location;
-	
-	      $("a.connect").attr("href", authUrl);
-	    }
-	  });
+		function myFunction() {
+			var rest_url = $("#rest_url").text();
+			var token = $('span.token').text();
+			$.ajax({
+				url : rest_url,
+				beforeSend : function(xhr) {
+					xhr.setRequestHeader('Authorization', "BEARER " + token);
+					xhr.setRequestHeader('Accept', "application/json");
+				},
+				success : function(response) {
+					var container = $('#response');
+					if (response) {
+						var result = ""
+						$.each(response, function(i, item) {
+							result = result + "{id: "+item.id+" userName: "+item.userName+"}, ";
+				        });						
+						container.text(result);
+					} else {
+						container.text("An error occurred.");
+					}
+				}
+			});
+		}
+
+		$(document).ready(
+			function() {
+				var extractToken = function(hash) {
+					var match = hash.match(/access_token=([\w-]+)/);
+					return !!match && match[1];
+				};
+
+				var CLIENT_ID = "lin";
+				var AUTHORIZATION_ENDPOINT = "http://localhost:8082/oauth/authorize";
+				var RESOURCE_ENDPOINT = "http://localhost:8082/oauth/authorize";
+
+				var token = extractToken(document.location.hash);
+				if (token) {
+					$('div.authenticated').show();
+
+					$('span.token').text(token);
+
+					$.ajax({
+						url : RESOURCE_ENDPOINT,
+						beforeSend : function(xhr) {
+							xhr.setRequestHeader('Authorization', "OAuth " + token);
+							xhr.setRequestHeader('Accept', "application/json");
+						},
+						success : function(response) {
+							var container = $('span.user');
+							if (response) {
+								container.text(response.username);
+							} else {
+								container.text("An error occurred.");
+							}
+						}
+					});
+				} else {
+					$('div.authenticate').show();
+
+					var authUrl = AUTHORIZATION_ENDPOINT
+							+ "?response_type=token"
+							+ "&client_id=" + CLIENT_ID
+							+ "&redirect_uri=" + window.location;
+
+					$("a.connect").attr("href", authUrl);
+				}
+			});
 	</script>
 </body>
 </html>
