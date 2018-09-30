@@ -10,3 +10,11 @@ zuul:
       strip-prefix: false
   host:
     socket-timeout-millis: 30000
+
+security: 
+  oauth2:
+    client:
+      client-id: lin
+      client-secret: secret 
+    resource:
+      token-info-uri: http://localhost:8082/oauth/check_token

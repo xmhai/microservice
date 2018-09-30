@@ -2,12 +2,15 @@ package com.lin.microservice.auth.config;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
@@ -16,6 +19,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.lin.microservice.auth.security.MyUserPrincipal;
 
 @Controller
 public class TokenController {
@@ -54,4 +59,24 @@ public class TokenController {
         return tokenId;
     }
 
+    // this is to be implemented by OAuth2 server
+    // but Sprint OAuth2 already provided /oauth/check_token, so this endpoint is not really needed in this case
+	@RequestMapping("/me")
+    @ResponseBody
+	public Map<String, String> user(HttpServletRequest request) {
+		String username = "";
+		
+        String authorization = request.getHeader("Authorization");
+        if (authorization != null && authorization.contains("Bearer")) {
+            String tokenId = authorization.substring("Bearer".length() + 1);
+            if (tokenStore instanceof JdbcTokenStore) {
+                OAuth2Authentication oauth2Authentication = ((JdbcTokenStore) tokenStore).readAuthentication(tokenId);
+                username = ((MyUserPrincipal) oauth2Authentication.getPrincipal()).getUsername();
+            }
+        }
+
+		Map<String, String> map = new LinkedHashMap<>();
+		map.put("username", username);
+		return map;
+	}
 }
