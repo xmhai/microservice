@@ -1,6 +1,12 @@
 server:
   port: 8761
 
+spring:
+  application:
+    name: eureka
+  freemarker:
+    prefer-file-system-access: false
+    
 eureka:
   instance:
     preferIpAddress: true
