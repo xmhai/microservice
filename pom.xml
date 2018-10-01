@@ -111,7 +111,47 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	
+
+	<profiles>
+		<profile>
+			<id>jar</id>
+	        <activation>
+	            <activeByDefault>true</activeByDefault>
+	        </activation>			
+			<properties>
+				<packaging.type>jar</packaging.type>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>war</id>
+			<properties>
+				<packaging.type>war</packaging.type>
+			</properties>
+			<dependencies>
+				<!-- Remove this plugin to reduce the WAR file size. It's not needed to deploy in an external application server. -->
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+					<scope>provided</scope>
+				</dependency>
+			    <!-- We need to include the javax.servlet API specs, the implementation will be provided by Wildfly / JBoss -->
+			    <dependency>
+			      <groupId>javax.servlet</groupId>
+			      <artifactId>javax.servlet-api</artifactId>
+			      <scope>provided</scope>
+			    </dependency>
+   			</dependencies>
+		</profile>
+	</profiles>
+  	
 	<build>
 		<pluginManagement>
 			<plugins>
