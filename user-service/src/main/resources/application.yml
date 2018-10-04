@@ -1,14 +1,12 @@
 server:
   port: 9000
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-
 spring:
   application:
     name: user-service
+  # when running multiple spring boot in single jvm, need to set jmx
+  jmx:
+    default-domain: user-service
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/oauth2?createDatabaseIfNotExist=true
@@ -21,3 +19,9 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
+        
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+

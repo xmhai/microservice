@@ -3,15 +3,15 @@ server:
 
 spring:
   application:
-    name: eureka
+    name: eureka-server
+  # when running multiple spring boot in single jvm, need to set jmx
+  jmx:
+    default-domain: eureka-server
+  # when deploy to jboss, need to set below value  
   freemarker:
     prefer-file-system-access: false
     
 eureka:
-  instance:
-    preferIpAddress: true
   client:
     registerWithEureka: false
     fetchRegistry: false
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
