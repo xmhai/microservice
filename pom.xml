@@ -78,6 +78,16 @@
 
 	<dependencies>
 		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+		
+		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
@@ -111,7 +121,81 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	
+
+	<profiles>
+		<profile>
+			<id>jar</id>
+	        <activation>
+	            <activeByDefault>true</activeByDefault>
+	        </activation>			
+			<properties>
+				<packaging.type>jar</packaging.type>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>lib</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<configuration>
+							<failOnError>false</failOnError>
+						</configuration>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>war</id>
+			<properties>
+				<packaging.type>war</packaging.type>
+			</properties>
+			<dependencies>
+				<!-- Remove this plugin to reduce the WAR file size. It's not needed to deploy in an external application server. -->
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+					<scope>provided</scope>
+				</dependency>
+			    <!-- We need to include the javax.servlet API specs, the implementation will be provided by Wildfly / JBoss -->
+			    <dependency>
+			      <groupId>javax.servlet</groupId>
+			      <artifactId>javax.servlet-api</artifactId>
+			      <scope>provided</scope>
+			    </dependency>
+   			</dependencies>
+		</profile>
+	</profiles>
+  	
 	<build>
 		<pluginManagement>
 			<plugins>

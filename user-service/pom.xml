@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>user-service</artifactId>
-	<packaging>jar</packaging>
+	<packaging>${packaging.type}</packaging>
 
 	<name>user-service</name>
 	<description>User Management Service</description>
@@ -15,4 +15,8 @@
 		<version>1.0</version>
 		<relativePath>../base-service-pom/pom.xml</relativePath>
 	</parent>
+
+	<build>
+		<finalName>user-service</finalName>
+	</build>
 </project>

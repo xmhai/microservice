@@ -15,14 +15,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
 
 public class JwtTokenAuthenticationFilter extends  OncePerRequestFilter {
     
-	private final JwtConfig jwtConfig;
+	private final JwtHelper jwtHelper;
 	
-	public JwtTokenAuthenticationFilter(JwtConfig jwtConfig) {
-		this.jwtConfig = jwtConfig;
+	public JwtTokenAuthenticationFilter(JwtHelper jwtHelper) {
+		this.jwtHelper = jwtHelper;
 	}
 
 	@Override
@@ -30,10 +29,10 @@ public class JwtTokenAuthenticationFilter extends  OncePerRequestFilter {
 			throws ServletException, IOException {
 		
 		// 1. get the authentication header. Tokens are supposed to be passed in the authentication header
-		String header = request.getHeader(jwtConfig.getHeader());
+		String header = request.getHeader(jwtHelper.getHeader());
 		
 		// 2. validate the header and check the prefix
-		if(header == null || !header.startsWith(jwtConfig.getPrefix())) {
+		if(header == null || !header.startsWith(jwtHelper.getPrefix())) {
 			chain.doFilter(request, response);  		// If not valid, go to the next filter.
 			return;
 		}
@@ -45,16 +44,12 @@ public class JwtTokenAuthenticationFilter extends  OncePerRequestFilter {
 		// And If user tried to access without access token, then he won't be authenticated and an exception will be thrown.
 		
 		// 3. Get the token
-		String token = header.replace(jwtConfig.getPrefix(), "");
+		String token = header.replace(jwtHelper.getPrefix(), "");
 		
 		try {	// exceptions might be thrown in creating the claims if for example the token is expired
 			
 			// 4. Validate the token
-			Claims claims = Jwts.parser()
-					.setSigningKey(jwtConfig.getSecret().getBytes())
-					.parseClaimsJws(token)
-					.getBody();
-			
+			Claims claims = jwtHelper.parseToken(token);
 			String username = claims.getSubject();
 			if(username != null) {
 				@SuppressWarnings("unchecked")

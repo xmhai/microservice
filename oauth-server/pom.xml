@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	<artifactId>oauth-server</artifactId>
-	<packaging>war</packaging>
+	<packaging>${packaging.type}</packaging>
 
 	<name>oauth-server</name>
 
@@ -15,14 +15,10 @@
 
 	<dependencies>
 		<dependency>
-		    <groupId>com.lin</groupId>
-		    <artifactId>lin-common</artifactId>
+			<groupId>com.lin</groupId>
+			<artifactId>lin-common</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -48,12 +44,6 @@
 		</dependency>
 
 		<!-- test -->
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-        
 		<dependency>
 		    <groupId>io.rest-assured</groupId>
 		    <artifactId>rest-assured</artifactId>
