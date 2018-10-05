@@ -1,4 +1,4 @@
-package com.lin.microservice.auth.entity;
+package com.lin.microservice.cloud.edge.security;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,5 +13,5 @@ import lombok.Data;
 @Table(name = "idm_role")
 public class Role extends BaseEntity {
     @Column(name = "role")
-    private String role;
+    private String name;
 }

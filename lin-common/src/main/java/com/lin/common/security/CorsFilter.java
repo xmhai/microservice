@@ -1,4 +1,4 @@
-package com.lin.microservice.auth.config;
+package com.lin.common.security;
 
 import java.io.IOException;
 
