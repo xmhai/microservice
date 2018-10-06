@@ -14,3 +14,16 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
+
+app:
+  oauth:
+    token-store: jwt
+    jwt:
+      #key-type: secret
+      #sign-key: 123
+      key-type: public
+      key-store:
+        file: mytest.jks
+        password: mypass
+        key: mytest
+ 

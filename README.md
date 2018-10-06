@@ -33,3 +33,9 @@ localhost:8082/oauth/authorize?response_type=token&client_id=sampleClientId&redi
 
 # Edge Server: Get User (GET)
 localhost:8081/users
+
+# generate JWT RSA key
+keytool -genkeypair -alias mytest -keyalg RSA -keypass mypass -keystore mytest.jks -storepass mypass
+keytool -importkeystore -srckeystore mytest.jks -destkeystore mytest.jks -deststoretype pkcs12
+keytool -list -rfc --keystore mytest.jks | c:\software\openssl\bin\openssl x509 -inform pem -pubkey
+copy the PUBLIC KEY section

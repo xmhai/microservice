@@ -15,16 +15,17 @@
 	<br />
 
 	<div class="authenticate hidden">
-		<a class="connect" href="">Connect</a>
+		<a class="connect" href="">Connect to OAuth Server</a> <br/>
+		<a class="connect" href="">Connect to Edge Server</a>
 	</div>
 
 	<div class="authenticated hidden">
 		<p>
-			token: <span class="token">[no token]</span>.
+			token: <span class="token">[no token]</span>
 		</p>
 
 		<p>
-			username: <span class="user">[no username]</span>.
+			user_name: <span class="user">[no username]</span>
 		</p>
 	</div>
 
@@ -37,6 +38,7 @@
 
 	<script src="webjars/jquery/1.9.1/jquery.min.js"></script>
 	<script type="text/javascript" charset="utf-8">
+		// use token to make the call to edge server
 		function myFunction() {
 			var rest_url = $("#rest_url").text();
 			var token = $('span.token').text();
@@ -64,42 +66,61 @@
 				}
 			});
 		}
+		
+		function isJwt (token) {
+			return token.indexOf('.') != -1;
+		}
 
+		function parseJwt (token) {
+            var base64Url = token.split('.')[1];
+            var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            return JSON.parse(window.atob(base64));
+        };
+        
+		// retrive oauth2 returned token from url
+        function extractToken (hash) {
+			var match = hash.match(/access_token=([\w-\.]+)/);
+			return !!match && match[1];
+		};
+		
 		$(document).ready(
 			function() {
-				var extractToken = function(hash) {
-					var match = hash.match(/access_token=([\w-]+)/);
-					return !!match && match[1];
-				};
-
 				var CLIENT_ID = "lin";
+				var CLIENT_SECRET = "secret";
 				var AUTHORIZATION_ENDPOINT = "http://localhost:8082/oauth/authorize";
-				var RESOURCE_ENDPOINT = "http://localhost:8082/me";
+				var RESOURCE_ENDPOINT = "http://localhost:8082/oauth/check_token?token=";
 
 				var token = extractToken(document.location.hash);
 				if (token) {
 					$('div.authenticated').show();
-
 					$('span.token').text(token);
 
-					$.ajax({
-						url : RESOURCE_ENDPOINT,
-						beforeSend : function(xhr) {
-							xhr.setRequestHeader('Authorization', "BEARER " + token);
-							xhr.setRequestHeader('Accept', "application/json");
-						},
-						success : function(response) {
-							var container = $('span.user');
-							if (response) {
-								container.text(response.username);
-							} else {
-								container.text("An error occurred.");
+					// get user_name
+					var container = $('span.user');
+					if (isJwt (token)) {
+						// get userinformation from jwt
+						var jwtJson = parseJwt (token);
+						container.text(jwtJson.user_name);
+					} else {
+						// use check_token to retrieve user_name
+						$.ajax({
+							url : RESOURCE_ENDPOINT+token,
+							beforeSend : function(xhr) {
+							    xhr.setRequestHeader("Authorization", "Basic " + window.btoa(CLIENT_ID + ":" + CLIENT_SECRET));
+							},
+							success : function(response) {
+								if (response) {
+									container.text(response.user_name);
+								} else {
+									container.text("An error occurred.");
+								}
 							}
-						}
-					});
+						});
+					}
 				} else {
 					$('div.authenticate').show();
 
+					// OAuth implicit flow 
 					var authUrl = AUTHORIZATION_ENDPOINT
 							+ "?response_type=token"
 							+ "&client_id=" + CLIENT_ID
