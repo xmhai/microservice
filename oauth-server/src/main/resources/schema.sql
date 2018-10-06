@@ -51,3 +51,9 @@ create table if not exists oauth_approvals (
 	expiresAt TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
 	lastModifiedAt TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)
 );
+
+-- create dummy client
+INSERT INTO oauth_client_details
+	(client_id, client_secret, scope, authorized_grant_types, web_server_redirect_uri, authorities, access_token_validity, refresh_token_validity, additional_information, autoapprove)
+VALUES
+	('lin', '{noop}secret', 'openid', 'password,authorization_code,implicit,refresh_token', 'http://microservice', null, 60, 36000, null, 'true');
