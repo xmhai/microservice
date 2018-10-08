@@ -13,5 +13,5 @@ import lombok.Data;
 @Table(name = "idm_role")
 public class Role extends BaseEntity {
     @Column(name = "role")
-    private String role;
+    private String name;
 }
