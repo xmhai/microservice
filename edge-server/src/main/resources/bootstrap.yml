@@ -35,10 +35,6 @@ zuul:
   host:
     socket-timeout-millis: 30000
 
-security: 
-  oauth2:
-    client:
-      client-id: lin
-      client-secret: secret 
-    resource:
-      token-info-uri: http://localhost:8082/oauth/check_token
+spring.session.store-type: redis # Session store type.
+spring.redis.host: 192.168.56.102 # Redis server host.
+spring.redis.port: 6379 # Redis server port.

@@ -21,6 +21,8 @@
 		<!-- <module>lin-common</module>  -->
 		<module>oauth-server</module>
 		<module>edge-server</module>
+		<module>edge-server-oauth</module>
+		<module>edge-server-jwt</module>
 		<module>eureka-server</module>
 		<module>user-service</module>
 		<module>template-service</module>
@@ -54,6 +56,13 @@
 
 	<dependencyManagement>
 		<dependencies>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-bom</artifactId>
+                <version>${spring-security.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>		
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
