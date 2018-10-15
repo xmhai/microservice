@@ -1,4 +1,4 @@
-package com.lin.microservice.auth.security;
+package com.lin.microservice.cloud.edge.security;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -7,9 +7,6 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import com.lin.microservice.auth.repository.Role;
-import com.lin.microservice.auth.repository.User;
 
 public class MyUserPrincipal implements UserDetails {
 	private static final long serialVersionUID = 1L;

@@ -1,4 +1,4 @@
-package com.lin.microservice.auth.repository;
+package com.lin.microservice.cloud.edge.security;
 
 import java.io.Serializable;
 import java.util.Set;
