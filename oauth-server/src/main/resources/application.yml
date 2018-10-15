@@ -1,5 +1,7 @@
-server:
-  port: 8082
+server.port: 8082
+# set the context path so that it doesn’t use the default ("/") 
+# because otherwise you can get cookies for other servers on localhost being sent to the wrong server
+server.servlet.context-path: /uaa
 
 spring:
   datasource:
