@@ -6,6 +6,51 @@
     <body>
         <h1>Welcome!</h1>
 
-        <p>Click <a th:href="@{/login}">here</a> to login.</p>
+		<div sec:authorize="isAuthenticated()">
+			<p>
+			Logged user: <span sec:authentication="name"></span><br/>
+			Roles: <span sec:authentication="principal.authorities"></span>
+			</p>
+            <form action="#" th:action="@{/logout}" method="post">
+                <input type="submit" value="Logout" />
+            </form>
+		</div>
+
+		<div sec:authorize="isAnonymous()">
+	        <p>Click <a th:href="@{/login}">here</a> to login.</p>
+		</div>
+		
+		<div>
+	        <h2>Service Security Test</h2>
+			<p><input id="rest_url" value="http://localhost:8080/api/users">&nbsp;<button onclick="invoke()">Invoke</button></p>
+			<p><span id="response">[response]</span></p>
+		</div>
+		
+		<script src="webjars/jquery/1.9.1/jquery.min.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			function invoke() {
+				var rest_url = $("#rest_url").val();
+				$.ajax({
+					url : rest_url,
+					success : function(response) {
+						var container = $('#response');
+						if (response) {
+							var result = ""
+							$.each(response, function(i, item) {
+								result = result + "{id: "+item.id+" userName: "+item.userName+"}, ";
+					        });						
+							container.text(result);
+						} else {
+							container.text("An error occurred.");
+						}
+					},
+				    error: function (xhr, status, errorThrown) {
+						var container = $('#response');
+				    	container.text("Error Code: " + xhr.status + " Error Messgae: " + xhr.responseText);
+					}
+				});
+			}
+		</script>
+		
     </body>
 </html>

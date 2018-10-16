@@ -1,12 +1,8 @@
-server:
-  port: 8080
+server.port: 8080
 
 spring:
-  application:
-    name: edge-server
-  # when running multiple spring boot in single jvm, need to set jmx
-  jmx:
-    default-domain: edge-server
+  application.name: edge-server
+  jmx.default-domain: edge-server # when running multiple spring boot in single jvm, need to set jmx
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/oauth2?createDatabaseIfNotExist=true
@@ -20,12 +16,15 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
         
-#eureka:
-#  client:
-#    service-url:
-#      defaultZone: http://localhost:8761/eureka
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka
+    register-with-eureka: false
+    fetch-registry: true
 
 zuul:
+  prefix: /api
   ignored-services: '*'
   routes:
     users:
