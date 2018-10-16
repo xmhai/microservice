@@ -5,7 +5,7 @@ spring:
   jmx.default-domain: edge-server # when running multiple spring boot in single jvm, need to set jmx
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/oauth2?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/oauth2?createDatabaseIfNotExist=true&autoReconnect=true&useSSL=false
     username: root
     password: password1
   jpa:
@@ -31,9 +31,10 @@ zuul:
       path: /users/**
       serviceId: user-service
       strip-prefix: false
+      sensitive-headers:
   host:
     socket-timeout-millis: 30000
-
+  
 #server.servlet.session.timeout= # Session timeout. If a duration suffix is not specified, seconds will be used.
 spring.session.store-type: redis # Session store type.
 #spring.session.redis.flush-mode=on-save # Sessions flush mode.
