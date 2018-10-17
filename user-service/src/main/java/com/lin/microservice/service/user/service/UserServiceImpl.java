@@ -4,6 +4,7 @@ package com.lin.microservice.service.user.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,8 +21,7 @@ public class UserServiceImpl extends EntityServiceSupport<User, Long, UserReposi
 	@Autowired
 	private UserRepository userRepository; 
 	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	public User findByUsername(String userName) {
 		return userRepository.findByUserName(userName);

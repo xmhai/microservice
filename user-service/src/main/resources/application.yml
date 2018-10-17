@@ -18,7 +18,12 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
-        
+  security:
+    user: #service account
+      name: service
+      password: password
+      roles: SERVICE
+
 eureka:
   client:
     service-url:

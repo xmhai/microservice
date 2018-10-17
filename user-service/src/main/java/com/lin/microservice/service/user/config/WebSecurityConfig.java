@@ -14,6 +14,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		        .anyRequest().authenticated()
 		        .and()
 			.sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.NEVER);
+				.sessionCreationPolicy(SessionCreationPolicy.NEVER)
+				.and()
+			.httpBasic(); // enable httpBasic for service account access
     }
 }
+
