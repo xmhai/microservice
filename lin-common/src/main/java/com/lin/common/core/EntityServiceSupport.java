@@ -5,8 +5,6 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +12,6 @@ import org.springframework.util.Assert;
 
 @Transactional(readOnly = true)
 public abstract class EntityServiceSupport<T, ID extends Serializable, R extends EntityRepository<T, ID>> implements EntityService<T, ID, R> {
-	private static final Logger logger = LoggerFactory.getLogger(EntityServiceSupport.class);
 	
 	@Autowired
 	protected R entityRepository;

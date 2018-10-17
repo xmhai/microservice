@@ -7,8 +7,10 @@ import javax.persistence.Table;
 import com.lin.common.core.BaseEntity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 @Entity
 @Table(name = "idm_role")
 public class Role extends BaseEntity {

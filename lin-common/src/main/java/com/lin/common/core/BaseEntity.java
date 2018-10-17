@@ -14,8 +14,10 @@ import javax.persistence.Version;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 @MappedSuperclass
 public abstract class BaseEntity {
 	@Id

@@ -15,8 +15,10 @@ import javax.validation.constraints.NotEmpty;
 import com.lin.common.core.BaseEntity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 @Entity
 @Table(name = "idm_user")
 public class User extends BaseEntity {
